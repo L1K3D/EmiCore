@@ -1,7 +1,7 @@
 import duckdb
 import logging
 import time as tm
-from main import get_time
+from functions_basics import get_time
 import pandas as pd
 import re
 
@@ -11,11 +11,11 @@ def create_database(database_name_collected):
     
     try:
         
-        conn = duckdb.connect(f'{database_name_collected}.db')
+        conn = duckdb.connect(f'./database/{database_name_collected}.db')
         
         logging.info(f"({get_time()}) | The database named {database_name_collected} was created sucessfully!")
         print(f"({get_time()}) | The database named {database_name_collected} was created sucessfully!")
-        tm.sleep()
+        tm.sleep(1)
         
         return conn
     

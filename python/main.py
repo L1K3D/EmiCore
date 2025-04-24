@@ -10,8 +10,8 @@ if __name__ == "__main__":
     
     #---###---#
     
-    logging.info("Hello! Welcome to IsolateEngine! \n For your first setup, you must create a database and this database need's to have at least one table configured. \n |Remember!| your sql scripts or csv files must exist in your 'database' folder.")
-    print("Hello! Welcome to IsolateEngine! \n For your first setup, you must create a database and this database need's to have at least one table configured. \n |Remember!| your sql scripts or csv files must exist in your 'database' folder.")
+    logging.info("Hello! Welcome to EmiCore! \n For your first setup, you must create a database and this database need's to have at least one table configured. \n |Remember!| your sql scripts or csv files must exist in your 'database' folder.")
+    print("Hello! Welcome to EmiCore! \n For your first setup, you must create a database and this database need's to have at least one table configured. \n |Remember!| your sql scripts or csv files must exist in your 'database' folder.")
     print()
     
     #---###---#
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     
     else:
         
-        logging.info(f"({get_time()}) #-# The creation of database has been aborted, so the other configurations can't be continued. Please, if you changed your mind now or later, do: 'exec IsolateEngine.exe' in your console again.")
-        print(f"({get_time()}) #-# The creation of database has been aborted, so the other configurations can't be continued. Please, if you changed your mind now or later, do: 'exec IsolateEngine.exe' in your console again.")
+        logging.info(f"({get_time()}) #-# The creation of database has been aborted, so the other configurations can't be continued. Please, if you changed your mind now or later, do: 'exec EmiCore.exe' in your console again.")
+        print(f"({get_time()}) #-# The creation of database has been aborted, so the other configurations can't be continued. Please, if you changed your mind now or later, do: 'exec EmiCore.exe' in your console again.")
         
     #---###---#
