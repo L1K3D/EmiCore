@@ -1,9 +1,9 @@
 import duckdb
-import logging
 import time as tm
 from functions_basics import get_time
 import pandas as pd
 import re
+import os
 
 #---###---#
 
@@ -112,3 +112,26 @@ def create_table_from_csv_file(database_path_collected, file_collected, conn_col
         tm.sleep(1)
         
 #---###---#
+
+def read_sql_scripts():
+
+    # Definir a pasta onde estão os arquivos SQL
+    folder = "caminho/para/a/pasta"
+
+    # Obter lista de arquivos .sql
+    sql_files = [f for f in os.listdir(folder) if f.endswith('.sql')]
+
+    # Listar arquivos para o usuário
+    print("Arquivos disponíveis:")
+    for i, file in enumerate(sql_files, start=1):
+        print(f"{i} - {file}")
+
+    # Solicitar escolha do usuário
+    escolha = int(input("\nDigite o número do arquivo desejado: "))
+
+    # Validar escolha do usuário
+    if 1 <= escolha <= len(sql_files):
+        file_path_selected = os.path.join(folder, sql_files[escolha - 1])
+        print(f"\nVocê escolheu: {file_path_selected}")
+    else:
+        print("\nNúmero inválido. Tente novamente.")

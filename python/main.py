@@ -1,5 +1,4 @@
 import time as tm
-import logging
 
 from functions_database_creator import create_database
 from functions_basics import get_time
