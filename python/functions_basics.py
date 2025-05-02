@@ -3,12 +3,16 @@ import time as tm
 import subprocess
 import sys
 
+#---###---#
+
 def get_time():
     
     local_date = datetime.now()
     local_date = local_date.strftime("%Y-%m-%d | %H:%M:%S")
     
     return local_date
+
+#---###---#
 
 def install_libs(package_list_collected):
     
@@ -26,6 +30,8 @@ def install_libs(package_list_collected):
             print(f"({get_time()}) | ❌ Failed to install: {package}")
             print()
             tm.sleep(1)
+            
+#---###---#
             
 def print_logo():
     logo = r"""
@@ -45,6 +51,8 @@ def print_logo():
 import os
 import subprocess
 import sys
+
+#---###---#
 
 def install_python():
     """
@@ -70,3 +78,5 @@ def install_python():
         subprocess.run([installer_path, "/quiet", "InstallAllUsers=1", "PrependPath=1"], check=True)
 
         print("✅ Python installation completed successfully.")
+        
+#---###---#
