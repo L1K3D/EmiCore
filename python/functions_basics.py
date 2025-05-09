@@ -2,6 +2,7 @@ from datetime import datetime
 import time as tm
 import subprocess
 import sys
+import os
 
 #---###---#
 
@@ -47,10 +48,6 @@ def print_logo():
     
     print("\n" + logo + "\n")
     tm.sleep(5)
-    
-import os
-import subprocess
-import sys
 
 #---###---#
 

@@ -31,7 +31,7 @@ if __name__ == "__main__":
         main_menu_input = input(
             "1 - Create a new database; \n"
             "0 - Exit \n\n"
-            "->: "
+            "-> "
         )
         
         if main_menu_input == "0":

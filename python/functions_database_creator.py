@@ -34,8 +34,6 @@ def create_database():
             
             create_database_function_return = None
             return create_database_function_return
-            
-            
     
     else:
         print(f"({get_time()}) #-# The creation of database has been aborted, so the other configurations can't be continued. Please, if you changed your mind now or later, do: 'exec EmiCore.exe' in your console again.")
@@ -227,6 +225,28 @@ def create_custom_table(conn_collected):
         
 #---###---#
 
+def create_table_from_console(conn_collected):
+    """
+    Provides an interactive SQL console for users to create tables easily.
+    Default input starts with 'CREATE TABLE IF NOT EXISTS '.
+    """
+    default_command = "CREATE TABLE IF NOT EXISTS "
+    user_input = input(default_command)
+
+    full_sql = default_command + user_input
+
+    # Check if user ended input correctly
+    if full_sql.strip().endswith(";"):
+        try:
+            conn_collected.execute(full_sql)  # Usar a conexão passada, sem criar uma nova
+            print(f"✅ ({get_time()}) | Table created successfully!")
+        except Exception as e:
+            print(f"❌ ({get_time()}) | Error executing SQL: {e}")
+    else:
+        print(f"⚠️ ({get_time()}) | Your SQL command must end with ';' to execute.")
+        
+#---###---#
+
 def create_new_database_menu():
     
     try:
@@ -245,10 +265,12 @@ def create_new_database_menu():
         while True:
             type_of_create_tables_menu_input = input(
                 "What you want to do about your new tables? \n" 
-                "1 - Create my own table using console interaction; \n "
+                "1 - Create my own table using console interaction; \n"
                 "2 - Import Schema construction from a SQL Script (The script need to exist in the '/database/sql_scripts' folder); \n"
                 "3 - Import Schema construction and data from a CSV File (The '.csv' file need to exist in the '/database/csv_files' folder); \n"
-                "0 - Exit from this step \n"
+                "4 - Create my own table using format schema of 'CREATE TABLE' \n"
+                "0 - Exit from this step \n\n"
+                "-> "
             )
             
             if type_of_create_tables_menu_input == "1":
@@ -267,8 +289,11 @@ def create_new_database_menu():
                     file_path_collected=csv_file_path_obtained,
                     conn_collected=conn_obtained
                 )
+
+            if type_of_create_tables_menu_input == "4":
+                create_table_from_console(conn_collected=conn_obtained)
             
             if type_of_create_tables_menu_input == "0":
-                print("Exiting from this step...")
+                print("Exiting from this step...\n")
                 tm.sleep(1)
                 break
