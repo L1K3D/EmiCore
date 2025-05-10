@@ -6,6 +6,10 @@ import os
 
 #---###---#
 
+sys.stdout.reconfigure(encoding='utf-8')
+
+#---###---#
+
 def get_time():
     
     local_date = datetime.now()
@@ -22,13 +26,13 @@ def install_libs(package_list_collected):
         try:
             
             subprocess.run([sys.executable, "-m", "pip", "install", package], check=True)
-            print(f"({get_time()}) | ✅ Successfully installed: {package}")
+            print(f"({get_time()}) | Successfully installed: {package}")
             print()
             tm.sleep(1)
             
         except subprocess.CalledProcessError:
             
-            print(f"({get_time()}) | ❌ Failed to install: {package}")
+            print(f"({get_time()}) | Failed to install: {package}")
             print()
             tm.sleep(1)
             
@@ -58,10 +62,10 @@ def install_python():
     try:
         # Verifica se o Python está instalado
         subprocess.run(["python", "--version"], check=True)
-        print("✅ Python is already installed.")
+        print("Python is already installed.")
     
     except subprocess.CalledProcessError:
-        print("⚠️ Python is not installed. Downloading and installing...")
+        print("Python is not installed. Downloading and installing...")
 
         # URL oficial para baixar o instalador do Python
         python_installer_url = "https://www.python.org/ftp/python/3.11.4/python-3.11.4-amd64.exe"
@@ -74,6 +78,6 @@ def install_python():
         # Executa a instalação silenciosa
         subprocess.run([installer_path, "/quiet", "InstallAllUsers=1", "PrependPath=1"], check=True)
 
-        print("✅ Python installation completed successfully.")
+        print("Python installation completed successfully.")
         
 #---###---#

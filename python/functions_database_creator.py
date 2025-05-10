@@ -7,37 +7,41 @@ import os
 
 #---###---#
 
-def create_database():
-    
-    database_name_input = input('Please, enter a name to your database: ')
-    
-    proceed_database_creation = input(f'The name seted up for your database is: {database_name_input}. Do you want proceed? (Y/N)')
-    
-    if proceed_database_creation.strip().upper() == 'Y':
-        
-        try:
-            
-            tm.sleep(1)
-            
-            conn = duckdb.connect(f'./database/{database_name_input}.db')
+def sanitize_database_name(name):
+    # Permite apenas letras, números e underlines
+    sanitized_name = re.sub(r'[^a-zA-Z0-9_]', '', name)
+    return sanitized_name
 
-            print(f"({get_time()}) | The database named {database_name_input} was created sucessfully!")
+#---###---#
+
+def create_database():
+    # Define o caminho absoluto para a pasta 'EmiCore/database'
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'database'))
+    os.makedirs(base_dir, exist_ok=True)
+
+    database_name_input = input('Please, enter a name to your database: ').strip()
+    database_name_input = sanitize_database_name(database_name_input)
+
+    proceed_database_creation = input(f'The name set for your database is: {database_name_input}. Do you want to proceed? (Y/N)')
+
+    if proceed_database_creation.strip().upper() == 'Y':
+        try:
             tm.sleep(1)
-            
-            create_database_function_return = conn
-            return create_database_function_return
-        
-        except ValueError as error:
-            
+            db_path = os.path.join(base_dir, f"{database_name_input}.db")
+            conn = duckdb.connect(db_path, read_only=False)
+
+            print(f"({get_time()}) | The database named {database_name_input} was created successfully at {db_path}")
+            tm.sleep(1)
+            return conn
+
+        except Exception as error:
             print(f"({get_time()}) | The function 'create_database' has returned an error: {error}")
             tm.sleep(1)
-            
-            create_database_function_return = None
-            return create_database_function_return
-    
+            return None
+
     else:
-        print(f"({get_time()}) #-# The creation of database has been aborted, so the other configurations can't be continued. Please, if you changed your mind now or later, do: 'exec EmiCore.exe' in your console again.")
-    
+        print(f"({get_time()}) #-# The creation of the database has been aborted.")
+
 #---###---#    
 
 def create_table_from_sql_script(file_path_collected, conn_collected):
@@ -200,7 +204,7 @@ def create_custom_table(conn_collected):
     columns_structure = input("Enter column definitions: ").strip()
 
     if not table_name or not columns_structure:
-        print("❌ Invalid input! Table name and columns cannot be empty.")
+        print("Invalid input! Table name and columns cannot be empty.")
         return
 
     # Constructing the SQL command
@@ -213,14 +217,14 @@ def create_custom_table(conn_collected):
         result = conn_collected.execute(f"SELECT COUNT(*) FROM duckdb_tables() WHERE table_name = '{table_name}'").fetchone()
 
         if result and result[0] > 0:
-            print(f"✅ ({get_time()}) | Table '{table_name}' created successfully!")
+            print(f"({get_time()}) | Table '{table_name}' created successfully!")
         else:
-            print(f"⚠️ ({get_time()}) | Table '{table_name}' was not found in the database!")
+            print(f"({get_time()}) | Table '{table_name}' was not found in the database!")
 
         tm.sleep(1)
 
     except Exception as error:
-        print(f"❌ ({get_time()}) | Error creating table: {error}")
+        print(f"({get_time()}) | Error creating table: {error}")
         tm.sleep(1)
         
 #---###---#
@@ -239,11 +243,11 @@ def create_table_from_console(conn_collected):
     if full_sql.strip().endswith(";"):
         try:
             conn_collected.execute(full_sql)  # Usar a conexão passada, sem criar uma nova
-            print(f"✅ ({get_time()}) | Table created successfully!")
+            print(f"({get_time()}) | Table created successfully!")
         except Exception as e:
-            print(f"❌ ({get_time()}) | Error executing SQL: {e}")
+            print(f"({get_time()}) | Error executing SQL: {e}")
     else:
-        print(f"⚠️ ({get_time()}) | Your SQL command must end with ';' to execute.")
+        print(f"({get_time()}) | Your SQL command must end with ';' to execute.")
         
 #---###---#
 
@@ -254,7 +258,7 @@ def create_new_database_menu():
         conn_obtained = create_database()
         
     except ValueError as error:
-        print(f"❌ ({get_time()}) | A database connection was not established: {error} | Exiting...")
+        print(f"({get_time()}) | A database connection was not established: {error} | Exiting...")
         tm.sleep(1)
         return
     

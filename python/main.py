@@ -1,3 +1,4 @@
+import os
 from functions_database_creator import create_new_database_menu
 from functions_basics import *
 
@@ -43,3 +44,6 @@ if __name__ == "__main__":
             create_new_database_menu()
         
     #---###---#
+
+    input("\nPressione ENTER para fechar...")
+    os.system("pause")
