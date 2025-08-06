@@ -16,7 +16,7 @@ def sanitize_database_name(name):
 
 def create_database():
     # Define o caminho absoluto para a pasta 'EmiCore/database'
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'database'))
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'database/local_databases'))
     os.makedirs(base_dir, exist_ok=True)
 
     database_name_input = input('Please, enter a name to your database: ').strip()
@@ -32,15 +32,18 @@ def create_database():
 
             print(f"({get_time()}) | The database named {database_name_input} was created successfully at {db_path}")
             tm.sleep(1)
+            print("")
             return conn
 
         except Exception as error:
             print(f"({get_time()}) | The function 'create_database' has returned an error: {error}")
             tm.sleep(1)
+            print("")
             return None
 
     else:
         print(f"({get_time()}) #-# The creation of the database has been aborted.")
+        print("")
 
 #---###---#    
 
@@ -254,7 +257,6 @@ def create_table_from_console(conn_collected):
 def create_new_database_menu():
     
     try:
-        
         conn_obtained = create_database()
         
     except ValueError as error:
