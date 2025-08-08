@@ -106,6 +106,7 @@ def create_table_from_csv_file(file_path_collected, conn_collected):
         # Load the CSV into a Pandas DataFrame
         df_csv_file = pd.read_csv(csv_file_path, sep=';')
         print(df_csv_file.head(5))  # Display the first five rows of the CSV file
+        print(df_csv_file.info())
         
         proceed_csv_file_execution = input("This CSV file converted to a pandas DataFrame will be created as a SQL table. Do you want to proceed? (Y/N): ")
 

@@ -2,9 +2,11 @@ import duckdb
 import os
 import time as tm
 
+from functions_basics import get_time
+
 def select_database_to_work():
 
-    folder = "./database/local_databases/"
+    folder = "./prompt_version/database/local_databases/"
 
     db_files = [f for f in os.listdir(folder) if f.endswith('.db')]
 
@@ -28,14 +30,13 @@ def select_database_to_work():
 
 def list_tables_in_database(file_path_collected):
 
-    db_file_path = file_path_collected
+    print("-----")
 
-    db_file = [f for f in os.listdir(db_file) if f.endswith('.db')]
-
-    conn = duckdb.connect(f'{db_file_path}')
+    conn = duckdb.connect(f'{file_path_collected}')
 
     tables_df = conn.sql("SHOW TABLES").df()
     print(tables_df)
+    print("-----")
 
 def delete_selected_database(file_path_collected):
     
@@ -47,7 +48,7 @@ def delete_selected_database(file_path_collected):
 
 def delete_databases():
 
-    folder = "./database/local_databases/"
+    folder = "./prompt_version/database/local_databases/"
 
     db_files = [f for f in os.listdir(folder) if f.endswith('.db')]
 
@@ -58,17 +59,26 @@ def delete_databases():
 
     while True:
         print("If you want exit from this step, press 0 \n")
+
         if 1 <= selection <= len(db_files):
             file_path_selected = os.path.join(folder, db_files[selection - 1])
-            print(f"\nYou select: {file_path_selected}")
-            os.remove(file_path_selected)
-            print(f"The database {file_path_selected} was deleted")
+            option_delete_database_input = input(f"\nYou selected: {file_path_selected}. Are you sure you want to delete it? (Y/N)")
+            
+            if option_delete_database_input.strip().upper() == "Y":
+                os.remove(file_path_selected)
+                print(f"The database {file_path_selected} was deleted")
+
+            elif option_delete_database_input.strip().upper() == "N":
+                print(f"({get_time()}) | Process aborted by the user.")
+                break
+
+            else:
+                print("Please, select a valid option")
+
         if selection == "0":
             print("Exiting from this step...")
             tm.sleep(1)
             break
-        else:
-            print("\nInvalid number, please, try again.")
 
 def work_local_databases_menu():
 
@@ -102,5 +112,8 @@ def work_local_databases_menu():
                     print("Returning to the 'Action on Databases' menu...")
                     break
 
-                if workin_at_select_database_input == "1":
+                elif workin_at_select_database_input == "1":
                     list_tables_in_database(database_selected)
+
+        elif action_on_local_databases_input == "2":
+            delete_databases()
