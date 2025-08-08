@@ -16,7 +16,7 @@ def sanitize_database_name(name):
 
 def create_database():
     # Define o caminho absoluto para a pasta 'EmiCore/database'
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'database/local_databases'))
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'prompt_version/database/local_databases'))
     os.makedirs(base_dir, exist_ok=True)
 
     database_name_input = input('Please, enter a name to your database: ').strip()
@@ -141,7 +141,7 @@ def create_table_from_csv_file(file_path_collected, conn_collected):
 def read_sql_scripts():
 
     # Definir a pasta onde estão os arquivos SQL
-    folder = "./database/sql_scripts/"
+    folder = "./prompt_version/database/sql_scripts/"
 
     # Obter lista de arquivos .sql
     sql_files = [f for f in os.listdir(folder) if f.endswith('.sql')]
@@ -171,7 +171,7 @@ def read_sql_scripts():
         
 def read_csv_files():
     
-    folder = "./database/csv_files/"
+    folder = "./prompt_version/database/csv_files/"
     
     csv_files = [f for f in os.listdir(folder) if f.endswith('.csv')]
     

@@ -4,7 +4,7 @@ import time as tm
 
 def select_database_to_work():
 
-    folder = "./database/local_databases/"
+    folder = "./prompt_version/database/local_databases/"
 
     db_files = [f for f in os.listdir(folder) if f.endswith('.db')]
 
