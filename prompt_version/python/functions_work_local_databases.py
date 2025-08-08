@@ -80,12 +80,12 @@ def work_local_databases_menu():
             "-> "
         )
 
-        if action_on_local_databases_input == 0:
+        if action_on_local_databases_input == "0":
             print("Returning to the 'Main' menu...")
             tm.sleep(1)
-            break;
+            break
 
-        elif action_on_local_databases_input == 1:
+        elif action_on_local_databases_input == "1":
             print("Select a database to work at:")
             database_selected = select_database_to_work()
 
@@ -98,9 +98,9 @@ def work_local_databases_menu():
                     "-> "
                 )
                 
-                if workin_at_select_database_input == 0:
+                if workin_at_select_database_input == "0":
                     print("Returning to the 'Action on Databases' menu...")
                     break
 
-                if workin_at_select_database_input == 1:
+                if workin_at_select_database_input == "1":
                     list_tables_in_database(database_selected)

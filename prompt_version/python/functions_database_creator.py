@@ -141,7 +141,7 @@ def create_table_from_csv_file(file_path_collected, conn_collected):
 def read_sql_scripts():
 
     # Definir a pasta onde estão os arquivos SQL
-    folder = "./database/sql_scripts/"
+    folder = "./prompt_version/database/sql_scripts/"
 
     # Obter lista de arquivos .sql
     sql_files = [f for f in os.listdir(folder) if f.endswith('.sql')]
@@ -171,7 +171,7 @@ def read_sql_scripts():
         
 def read_csv_files():
     
-    folder = "./database/csv_files/"
+    folder = "./prompt_version/database/csv_files/"
     
     csv_files = [f for f in os.listdir(folder) if f.endswith('.csv')]
     
