@@ -11,7 +11,7 @@ install_python()
 #---###---#
 
 print()
-packages_input = ["duckdb", "pandas"]
+packages_input = ["duckdb", "pandas", "tabulate"]
 install_libs(packages_input)
 print()
 

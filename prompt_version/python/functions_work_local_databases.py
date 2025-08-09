@@ -1,6 +1,7 @@
 import duckdb
 import os
 import time as tm
+from tabulate import tabulate
 
 from functions_basics import get_time
 from functions_database_creator import create_custom_table, create_table_from_console, read_csv_files, create_table_from_csv_file, read_sql_scripts, create_table_from_sql_script
@@ -84,32 +85,50 @@ def delete_selected_database(file_path_collected):
 
     print(f"The database named {db_file_path} was deleted sucefully")
 
-def execute_custom_query(file_path_collected):
+#---###---#
 
+def execute_custom_query(file_path_collected):
+    
     print("-----")
-    print("\nWrite your SQL query here, or write 'exit' to back to menu:")
-    print("")
+    print("\nWrite your SQL query here, or write 'exit' to back to menu:\n")
+    
+    #---###---#
+    
+    # Open a connection to the DuckDB database file located at 'file_path_collected'
     conn = duckdb.connect(file_path_collected)
     
     while True:
+        # Prompt the user to input an SQL query
         query = input("SQL> ")
 
+        # Exit condition: if the user types 'exit', break the loop and return to menu
         if query.strip().lower() == "exit":
             break
 
-        print(">>>> ")
+        print("#---result---#")
 
         try:
-            result = conn.execute(query).fetchall()
+            # Execute the SQL query and fetch all results as a pandas DataFrame
+            df = conn.execute(query).fetchdf()
 
-            if result:
-                for row in result:
-                    print(row)
+            # Check if the DataFrame contains any rows (i.e., the query returned results)
+            if not df.empty:
+                # Using 'tabulate' to print the DataFrame in a well-formatted table style
+                # 'headers="keys"' means the column names will be printed as headers
+                # 'tablefmt="psql"' styles the table similar to PostgreSQL console output
+                # 'showindex=False' hides the DataFrame's index column for cleaner output
+                print(tabulate(df, headers='keys', tablefmt='psql', showindex=False))
+            else:
+                # Inform the user that the query ran successfully but returned no rows (e.g., for INSERT, UPDATE)
+                print("Query executed successfully (no results to show).")
 
             print("")
 
         except Exception as e:
+            # Catch and display any errors that occur during query execution, such as syntax errors
             print(f"Erro: {e}")
+
+#---###---#
 
 def work_local_databases_menu():
 
