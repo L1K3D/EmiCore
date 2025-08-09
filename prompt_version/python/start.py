@@ -1,3 +1,14 @@
+"""
+This script launches the Emicore application by opening a new Windows console window
+and running the 'main.py' Python script with UTF-8 encoding enabled in the console.
+
+It includes a brief startup delay and error handling to capture initialization issues,
+providing a user-friendly console environment for the application.
+"""
+
+#---###---#
+
+# Importing libraries
 import subprocess  # For running external system commands and processes
 import time as tm  # Standard time module for delays
 
