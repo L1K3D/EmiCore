@@ -431,8 +431,8 @@ def create_new_database_menu():
                 "1 - Create my own table using console interaction; \n"
                 "2 - Import Schema construction from a SQL Script (The script needs to exist in the '/database/sql_scripts' folder); \n"
                 "3 - Import Schema construction and data from a CSV File (The '.csv' file needs to exist in the '/database/csv_files' folder); \n"
-                "4 - Create my own table using format schema of 'CREATE TABLE' \n"
-                "0 - Exit from this step \n\n"
+                "4 - Create my own table using format schema of 'CREATE TABLE'; \n"
+                "0 - Exit from this step. \n\n"
                 "-> "
             )
             

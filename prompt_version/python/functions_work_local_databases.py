@@ -6,6 +6,8 @@ from tabulate import tabulate
 from functions_basics import get_time
 from functions_database_creator import create_custom_table, create_table_from_console, read_csv_files, create_table_from_csv_file, read_sql_scripts, create_table_from_sql_script
 
+#---###---#
+
 def select_database_to_work():
 
     folder = "./prompt_version/database/local_databases/"
@@ -32,6 +34,8 @@ def select_database_to_work():
         
         else:
             print("\nInvalid number, please, try again.")
+
+#---###---#
 
 def delete_databases():
 
@@ -67,6 +71,8 @@ def delete_databases():
             tm.sleep(1)
             break
 
+#---###---#
+
 def list_tables_in_database(file_path_collected):
 
     print("-----")
@@ -76,6 +82,8 @@ def list_tables_in_database(file_path_collected):
     tables_df = conn.sql("SHOW TABLES").df()
     print(tables_df)
     print("-----")
+
+#---###---#
 
 def delete_selected_database(file_path_collected):
     
@@ -130,6 +138,56 @@ def execute_custom_query(file_path_collected):
 
 #---###---#
 
+def delete_table(file_path_collected):
+    # Open connection to DuckDB database
+    conn = duckdb.connect(f'{file_path_collected}')
+
+    # Get all tables in the database
+    tables_df = conn.sql("SHOW TABLES").df()    
+
+    # Convert dataframe column "name" to a Python list of table names
+    tables_list = tables_df["name"].tolist()
+
+    # Display available tables with index
+    for i, table in enumerate(tables_list, start=1):
+        print(f"{i} - {table}")
+
+    # Ask user to select a table
+    selection = int(input("\nSelect the number of the table (or 0 to exit): "))
+
+    while True:
+        if selection == 0:
+            print("Exiting from this step...")
+            tm.sleep(1)
+            break
+
+        if 1 <= selection <= len(tables_list):
+            # Get the name of the selected table
+            table_selected = tables_list[selection - 1]
+
+            # Ask for confirmation before deleting
+            option_delete_table_input = input(f"\nYou selected: {table_selected}. Are you sure you want to delete it? (Y/N) ")
+
+            if option_delete_table_input.strip().upper() == "Y":
+                # Drop the selected table
+                conn.sql(f"DROP TABLE IF EXISTS {table_selected}")
+                print(f"The table '{table_selected}' was deleted.")
+                break
+
+            elif option_delete_table_input.strip().upper() == "N":
+                print(f"({get_time()}) | Process aborted by the user.")
+                break
+
+            else:
+                print("Please, select a valid option (Y/N).")
+
+        else:
+            print("Invalid selection. Please try again.")
+            break
+
+
+#---###---#
+
 def work_local_databases_menu():
 
     while True:
@@ -154,7 +212,10 @@ def work_local_databases_menu():
                     "1 - List tables; \n"
                     "2 - Execute SQL query; \n"
                     "3 - Create your own table using console interaction; \n"
-                    "3 - Delete table; \n"
+                    "4 - Import Schema construction from a SQL Script (The script needs to exist in the '/database/sql_scripts' folder); \n"
+                    "5 - Import Schema construction and data from a CSV File (The '.csv' file needs to exist in the '/database/csv_files' folder); \n"
+                    "6 - Create my own table using format schema of 'CREATE TABLE'; \n"
+                    "7 - Delete table; \n"
                     "4 - Delete database; \n"
                     "0 - Exit \n\n"
                     "-> "
@@ -165,16 +226,39 @@ def work_local_databases_menu():
                     break
 
                 elif workin_at_select_database_input == "1":
-                    list_tables_in_database(database_selected)
+                    list_tables_in_database(file_path_collected=database_selected)
 
                 elif workin_at_select_database_input == "2":
-                    execute_custom_query(database_selected)
+                    execute_custom_query(file_path_collected=database_selected)
 
                 elif workin_at_select_database_input == "3":
                     conn_obtained=duckdb.connect(database_selected)
                     create_custom_table(conn_collected=conn_obtained)
 
                 elif workin_at_select_database_input == "4":
+                    # Reads the path of a SQL script selected by the user and executes it to create tables
+                    sql_script_file_path_obtained = read_sql_scripts()
+                    create_table_from_sql_script(
+                        file_path_collected=sql_script_file_path_obtained,
+                        conn_collected=conn_obtained
+                    )
+
+                elif workin_at_select_database_input == "5":
+                    # Reads the path of a CSV file selected by the user and creates tables from it
+                    csv_file_path_obtained = read_csv_files()
+                    create_table_from_csv_file(
+                        file_path_collected=csv_file_path_obtained,
+                        conn_collected=conn_obtained
+                    )
+
+                elif workin_at_select_database_input == "6":
+                    # Allows the user to enter a full CREATE TABLE statement directly in the console
+                    create_table_from_console(conn_collected=conn_obtained)
+
+                elif workin_at_select_database_input == "7":
+                    delete_table(file_path_collected=database_selected)
+
+                elif workin_at_select_database_input == "":
                     delete_selected_database(database_selected)
 
         elif action_on_local_databases_input == "2":
