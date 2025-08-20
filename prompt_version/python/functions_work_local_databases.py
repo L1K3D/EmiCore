@@ -85,16 +85,6 @@ def list_tables_in_database(file_path_collected):
 
 #---###---#
 
-def delete_selected_database(file_path_collected):
-    
-    db_file_path = file_path_collected
-
-    os.remove(db_file_path)
-
-    print(f"The database named {db_file_path} was deleted sucefully")
-
-#---###---#
-
 def execute_custom_query(file_path_collected):
     
     print("-----")
@@ -185,6 +175,24 @@ def delete_table(file_path_collected):
             print("Invalid selection. Please try again.")
             break
 
+#---###---#
+
+def delete_database_working_at(file_path_collected):
+
+        while True:
+            delete_database_working_at_input = input("Are you sure you want to the delete the database you are working at? (Y/N): \n")
+
+            if delete_database_working_at_input.strip().upper() == "Y":
+                os.remove(file_path_collected)
+                print(f"The database named {file_path_collected} was deleted sucessfully!")
+                break
+
+            elif delete_database_working_at_input.strip.upper() == "N":
+                print(f"({get_time()}) | Process aborted by the user.")
+                break
+
+            else:
+                print("Please, enter a valid option...")
 
 #---###---#
 
@@ -216,7 +224,7 @@ def work_local_databases_menu():
                     "5 - Import Schema construction and data from a CSV File (The '.csv' file needs to exist in the '/database/csv_files' folder); \n"
                     "6 - Create my own table using format schema of 'CREATE TABLE'; \n"
                     "7 - Delete table; \n"
-                    "4 - Delete database; \n"
+                    "8 - Delete database; \n"
                     "0 - Exit \n\n"
                     "-> "
                 )
@@ -258,8 +266,8 @@ def work_local_databases_menu():
                 elif workin_at_select_database_input == "7":
                     delete_table(file_path_collected=database_selected)
 
-                elif workin_at_select_database_input == "":
-                    delete_selected_database(database_selected)
+                elif workin_at_select_database_input == "8":
+                    delete_database_working_at(file_path_collected=database_selected)
 
         elif action_on_local_databases_input == "2":
             delete_databases()
